@@ -1,0 +1,350 @@
+{% extends 'english/base.html' %}
+{% load static %}
+
+{% block title %}
+Self-Education
+{% endblock %}
+
+{% block mobile_menu %}
+    <a href="#main_top" data-target="anchor">Главная</a>
+    <a href="#next" data-target="anchor">Уроки</a>
+    <a href="#listen_to_the_radio" data-target="anchor">Радио</a>
+    <a href="{% url 'about' %}" data-target="anchor">О нас</a>
+    <a href="#middle_block" data-target="anchor">С чего начать?</a>
+    <a href="#footer" data-target="anchor">Контакты</a>
+{% endblock %}
+
+{% block mobile_menu_two %}
+    <a href="#main_top" data-target="anchor">Главная</a>
+    <a href="#next" data-target="anchor">Уроки</a>
+    <a href="#listen_to_the_radio" data-target="anchor">Радио</a>
+    <a href="{% url 'about' %}" data-target="anchor">О нас</a>
+    <a href="#middle_block" data-target="anchor">С чего начать?</a>
+    <a href="#footer" data-target="anchor">Контакты</a>
+{% endblock %}
+
+{% block sticky %}
+    <ul class="list_sticky_pos">
+        <li><a href="#main_top" data-target="anchor">Главная</a></li>
+        <li><a href="#next" data-target="anchor">Уроки</a></li>
+        <li><a href="#listen_to_the_radio" data-target="anchor">Радио</a></li>
+        <li><a href="{% url 'about' %}" data-target="anchor">О нас</a></li>
+        <li><a href="#middle_block" data-target="anchor">С чего начать?</a></li>
+        <li><a href="#footer" data-target="anchor">Контакты</a></li>
+    </ul>
+{% endblock %}
+{% block section %}
+    <div class="par_and_desc">
+        <div class="parallax_and_description">
+            <div class="container">
+                <ul id="scene" class="scene">
+                    <li class="layer" data-depth=".1">
+                        <img  class="img_size" src="{{slicks.main_img.url}}" alt="">
+                    </li>
+                    <li class="layer" data-depth=".5">
+                        <img class="img_size" src="{{slicks.img_1.url}}" alt="">
+                    </li>
+                    <li class="layer" data-depth=".2">
+                        <img class="img_size" src="{{slicks.img_2.url}}" alt="">
+                    </li>
+                    <li class="layer" data-depth=".4">
+                        <img class="img_size" src="{{slicks.img_4.url}}" alt="">
+                    </li>
+                    <li class="layer" data-depth=".2">
+                        <img class="img_size" src="{{slicks.img_6.url}}" alt="">
+                    </li>
+                    <li class="layer" data-depth=".4">
+                        <img class="img_size" src="{{slicks.img_5.url}}" alt="">
+                    </li>
+                    <li class="layer" data-depth=".3">
+                        <img class="img_size" src="{{slicks.img_3.url}}" alt="">
+                    </li>
+                </ul>
+            </div>
+            <div class="description">
+                <h1 class"title">{{slicks.main_title}}<br>{{slicks.main_title_2}}</h1>
+                <p class="description_text">
+                    {{ slicks.main_text }}
+                </p>
+                {% if user.is_authenticated %}
+                    <button onclick="location.href='/lessons/lessons'" class="btn_registration neon_shadow"
+                            id="btn_registration">
+                        <span>Начать</span>
+                        <span class="bubble"></span>
+                        <span class="bubble"></span>
+                        <span class="bubble"></span>
+                        <span class="bubble"></span>
+                    </button>
+                {% else %}
+                    <button onclick="location.href='/accounts/register'" class="btn_registration  neon_shadow"
+                            id="btn_registration">
+                        <span>Зарегистрироваться</span>
+                        <span class="bubble"></span>
+                        <span class="bubble"></span>
+                        <span class="bubble"></span>
+                        <span class="bubble"></span>
+                    </button>
+                {% endif %}
+            </div>
+        </div>
+        </div>
+
+        <div class="next" id="next">
+            <div class="lessons">
+                <h2 class="title">Уроки</h2>
+                <a href="/lessons/lessons">Все уроки</a>
+            </div>
+            <div class="slider multiple-items">
+                {% for lesson in lessons %}
+                <div class="items">
+                    <div style="cursor: pointer;" onclick="location.href='/grammar/grammar/{{ lesson.id }}/'"
+                         class="container_slider">
+                        <img src="{{ lesson.img.url }}" class="responsive">
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            <div class="slider multiple-items">
+                {% for lesson in phonetics %}
+                <div class="items">
+                    <div style="cursor: pointer;" onclick="location.href='/topic/topic/{{ lesson.id }}/'"
+                         class="container_slider">
+                        <img src="{{ lesson.img.url }}" class="responsive">
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="middle_block" id="middle_block">
+            <div class="curriculum_block">
+                <h2 align="center" class="curriculum_margin_title title">{{ curriculum.title }}</h2>
+                <p class="curriculum_text">{{ curriculum.curriculum_text|safe|linebreaks }}</p>
+                <div class="proverb_grid">
+                    <div class="img_grid_pos_start">
+                        <img src="{% static 'src/start.svg' %}" class="responsive_two">
+                    </div>
+                    <div class="proverb">{{ curriculum.start|safe|linebreaks }}</div>
+                </div>
+                <p class="curriculum_text">{{ curriculum.question|safe|linebreaks }}</p>
+                <div id="readmore">
+                    <div class="proverb_grid">
+                        <div><p class="curriculum_text">{{ curriculum.notebook|safe|linebreaks }}</p></div>
+                        <div class="img_grid_pos_start">
+                            <img src="{% static 'src/noteWithPen.svg' %}" class="responsive_two responsive_notebook">
+                        </div>
+                    </div>
+                    <div class="proverb_grid">
+                        <div class="img_grid_pos_start">
+                            <img src="{% static 'src/phon.svg' %}" class="responsive_two responsive_phonetics">
+                        </div>
+                        <div><p class="curriculum_text">{{ curriculum.phonetics|safe|linebreaks }}</p></div>
+                    </div>
+                    <div id="proverb_grid proverb_grid_grammar">
+                        <div><p class="curriculum_text">{{ curriculum.grammar|safe|linebreaks }}</p></div>
+                        <div class="img_grid_pos_start">
+                            <img src="{% static 'src/grammar2.svg' %}" class="responsive_two">
+                        </div>
+                    </div>
+                    <div class="proverb_grid">
+                        <div><p class="curriculum_text">{{ curriculum.repeat|safe|linebreaks }}</p></div>
+                        <div class="img_grid_pos_start">
+                            <img src="{% static 'src/repeat.svg' %}" class="responsive_two responsive_repeat">
+                        </div>
+                    </div>
+                    <div class="proverb_grid">
+                        <div class="img_grid_pos_start">
+                            <img src="{% static 'src/wordsBrain.svg' %}" class="responsive_two responsive_brain">
+                        </div>
+                        <div><p class="curriculum_text">{{ curriculum.words|safe|linebreaks }}</p></div>
+                    </div>
+                    <div class="proverb_grid">
+                        <div><p class="curriculum_text">{{ curriculum.radio|safe|linebreaks }}</p></div>
+                        <div class="img_grid_pos_start">
+                            <img src="{% static 'src/radio.svg' %}" class="responsive_two responsive_radio">
+                        </div>
+                    </div>
+                    <div class="proverb_grid">
+                        <div class="img_grid_pos_start">
+                            <img src="{% static 'src/question.svg' %}" class="responsive_two responsive_question">
+                        </div>
+                        <div><p class="curriculum_text">{{ curriculum.practice|safe|linebreaks }}</p></div>
+                    </div>
+                    <br>
+                    <br>
+                </div>
+                <div class="btn_readmore_pos">
+                    <button onclick="readMoreFunc(this)" class="btn_registration" id="btn_readmore"><span>ЧИТАТЬ ДАЛЕЕ</span>
+                        <span class="bubble"></span>
+                        <span class="bubble"></span>
+                        <span class="bubble"></span>
+                        <span class="bubble"></span>
+                    </button>
+                    <button onclick="readMoreFunc(this)" class="btn_registration" id="btn_readmore_escape"><span>СКРЫТЬ ТЕКСТ</span>
+                        <span class="bubble"></span>
+                        <span class="bubble"></span>
+                        <span class="bubble"></span>
+                        <span class="bubble"></span>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="listen_to_the_radio" id="listen_to_the_radio">
+            <h2 class="listen_to_the_radio_title title">Радио</h2>
+            <div class="listen_to_the_radio_container">
+                <div class="container_radio_one">
+                    <div class="radio_one_img_container"><img class="radio_one_img" src="{% static 'src/latestNews.svg' %}" alt="radio"></div>
+                    <div class="container_radio_flex">
+                        <div><audio id="play_radio1" src="http://bbcmedia.ic.llnwd.net/stream/bbcmedia_radio4extra_mf_p" type="audio/mpeg" preload="metadata"><audio/></div>
+                        <div id="play_escape_play_radio1"><button name="play_radio1" onclick="playRadio(this)" class="play_radio_button"><i class='fas fa-play'></i></button></div>
+                        <div id="pause_escape_play_radio1"><button name="play_radio1" onclick="pauseRadio(this)" class="pause_radio_button"><i class='fas fa-pause'></i></button></div>
+                        <a id="volMute_play_radio1" name="play_radio1" onclick="volumeUnMute(this)" class="volume_mute"><i class='fas fa-volume-mute'></i></a>
+                        <a id="volUnMute_play_radio1" name="play_radio1" onclick="volumeMute(this)" class="volume_up"><i class='fas fa-volume-up'></i></a>
+                        <input id="volumeslider_play_radio1" name="play_radio1" type="range" min="0" max="100" step="1" value="100" oninput="setVolume(this)">
+                    </div>
+                </div>
+                <div class="container_radio_one">
+                    <div class="radio_one_img_container"><img class="radio_one_img" src="{% static 'src/BBC.svg' %}" alt="radio"></div>
+                    <div class="container_radio_flex">
+                        <div><audio id="play_radio2" src="http://bbcwssc.ic.llnwd.net/stream/bbcwssc_mp1_ws-einws" type="audio/mpeg" preload="metadata"><audio/></div>
+                        <div id="play_escape_play_radio2"><button name="play_radio2" onclick="playRadio(this)" class="play_radio_button"><i class='fas fa-play'></i></button></div>
+                        <div id="pause_escape_play_radio2"><button name="play_radio2" onclick="pauseRadio(this)" class="pause_radio_button"><i class='fas fa-pause'></i></button></div>
+                        <a id="volMute_play_radio2" name="play_radio2" onclick="volumeUnMute(this)" class="volume_mute"><i class='fas fa-volume-mute'></i></a>
+                        <a id="volUnMute_play_radio2" name="play_radio2" onclick="volumeMute(this)" class="volume_up"><i class='fas fa-volume-up'></i></a>
+                        <input id="volumeslider_play_radio2" name="play_radio2" type="range" min="0" max="100" step="1" value="100" oninput="setVolume(this)">
+                    </div>
+                </div>
+                <div class="container_radio_one">
+                    <div class="radio_one_img_container"><img class="radio_one_img" src="{% static 'src/sportnews.svg' %}" alt="radio"></div>
+                    <div class="container_radio_flex">
+                        <div><audio id="play_radio3" src="http://bbcmedia.ic.llnwd.net/stream/bbcmedia_radio5live_mf_p" type="audio/mpeg" preload="metadata"><audio/></div>
+                        <div id="play_escape_play_radio3"><button name="play_radio3" onclick="playRadio(this)" class="play_radio_button"><i class='fas fa-play'></i></button></div>
+                        <div id="pause_escape_play_radio3"><button name="play_radio3" onclick="pauseRadio(this)" class="pause_radio_button"><i class='fas fa-pause'></i></button></div>
+                        <a id="volMute_play_radio3" name="play_radio3" onclick="volumeUnMute(this)" class="volume_mute"><i class='fas fa-volume-mute'></i></a>
+                        <a id="volUnMute_play_radio3" name="play_radio3" onclick="volumeMute(this)" class="volume_up"><i class='fas fa-volume-up'></i></a>
+                        <input id="volumeslider_play_radio3" name="play_radio3" type="range" min="0" max="100" step="1" value="100" oninput="setVolume(this)">
+                    </div>
+                </div>
+                <div class="container_radio_one">
+                    <div class="radio_one_img_container"><img class="radio_one_img" src="{% static 'src/londonBBC.svg' %}" alt="radio"></div>
+                    <div class="container_radio_flex">
+                        <div><audio id="play_radio4" src="http://bbcmedia.ic.llnwd.net/stream/bbcmedia_lrldn_mf_p" type="audio/mpeg" preload="metadata"><audio/></div>
+                        <div id="play_escape_play_radio4"><button name="play_radio4" onclick="playRadio(this)" class="play_radio_button"><i class='fas fa-play'></i></button></div>
+                        <div id="pause_escape_play_radio4"><button name="play_radio4" onclick="pauseRadio(this)" class="pause_radio_button"><i class='fas fa-pause'></i></button></div>
+                        <a id="volMute_play_radio4" name="play_radio4" onclick="volumeUnMute(this)" class="volume_mute"><i class='fas fa-volume-mute'></i></a>
+                        <a id="volUnMute_play_radio4" name="play_radio4" onclick="volumeMute(this)" class="volume_up"><i class='fas fa-volume-up'></i></a>
+                        <input id="volumeslider_play_radio4" name="play_radio4" type="range" min="0" max="100" step="1" value="100" oninput="setVolume(this)">
+                    </div>
+                </div>
+            </div>
+            <div id="clouds">
+                <svg xmlns="http://www.w3.org/2000/svg" height="100" viewBox="0 0 100 100" preserveAspectRatio="none">
+                    <path d="M-5 100q5-80 10 0zm5 0q5-100 10 0m-5 0q5-70 10 0m-5 0q5-90 10 0m-5 0q5-70 10 0m-5 0q5-110 10 0m-5 0q5-90 10 0m-5 0q5-70 10 0m-5 0q5-90 10 0m-5 0q5-50 10 0m-5 0q5-80 10 0m-5 0q5-60 10 0m-5 0q5-40 10 0m-5 0q5-50 10 0m-5 0q5-80 10 0m-5 0q5-55 10 0m-5 0q5-70 10 0m-5 0q5-80 10 0m-5 0q5-50 10 0m-5 0q5-75 10 0m-5 0q5-85 10 0z" fill="#fff"/>
+                </svg>
+            </div>
+        </div>
+        <div class="bottom_section">
+            <div class="bottom_section_container">
+                <div class="check_eng_level">
+                    <div class="check_eng_level_container">
+                        <h2>ТЕСТ НА ОПРЕДЕЛЕНИЕ УРОВНЯ АНГЛИЙСКОГО ЯЗЫКА</h2>
+                        <p>Проверьте свой уровень английского всего за несколько минут, пройдя этот бесплатный тест.</p>
+                        <div class="pos_btn_tests">
+                            <button onclick="location.href='{% url 'index' %}'" class="btn_registration" id="btn_test_eng"><span>НАЧАТЬ ТЕСТ</span>
+                                <span class="bubble"></span>
+                                <span class="bubble"></span>
+                                <span class="bubble"></span>
+                                <span class="bubble"></span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="parallax_and_description" id="parallax_and_description_two">
+                    <div class="container" id="container_parallax_two">
+                        <ul id="scene_two" class="scene_two">
+                            <li class="layer" data-depth=".1">
+                                <img  class="img_size" src="{{slicks.second_parallax_5.url}}" alt="parallax">
+                            </li>
+                            <li class="layer" data-depth=".5">
+                                <img class="img_size" src="{{slicks.second_parallax_3.url}}" alt="parallax">
+                            </li>
+                            <li class="layer" data-depth=".2">
+                                <img class="img_size" src="{{slicks.second_parallax_6.url}}" alt="parallax">
+                            </li>
+                            <li class="layer" data-depth=".4">
+                                <img class="img_size" src="{{slicks.second_parallax_4.url}}" alt="parallax">
+                            </li>
+                            <li class="layer" data-depth=".2">
+                                <img class="img_size" src="{{slicks.second_parallax_1.url}}" alt="parallax">
+                            </li>
+                            <li class="layer" data-depth=".4">
+                                <img class="img_size" src="{{slicks.second_parallax_2.url}}" alt="parallax">
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+{% endblock %}
+{% block script_parallax %}
+    <script src="{% static 'js/parallax.js' %}" type="text/javascript"></script>
+    <script type="text/javascript">
+        var id;
+        var volMute = document.getElementById('volMute');
+        var volUnMute = document.getElementById('volUnMute');
+        var volumeslider = document.getElementById('volumeslider_' + id);
+        var volMainSet = 1;
+        //volumeslider.addEventListener('change', setVolume, false);
+
+        function playRadio(ev){
+            id = ev.name;
+            document.getElementById('play_escape_' + id).style.display = 'none';
+            document.getElementById('pause_escape_' + id).style.display = 'flex';
+            volumeslider = document.getElementById('volumeslider_' + id);
+            document.getElementById(id).play();
+        }
+
+        function pauseRadio(ev){
+            id = ev.name;
+            document.getElementById('play_escape_' + id).style.display = 'flex';
+            document.getElementById('pause_escape_' + id).style.display = 'none';
+            document.getElementById(id).pause();
+        }
+
+        function setVolume(ev){
+            id = ev.name;
+            if (volumeslider.value == 0) {
+                document.getElementById('volMute_' + id).style.display = 'flex';
+                document.getElementById('volUnMute_' + id).style.display = 'none';
+            }else {
+                document.getElementById('volMute_' + id).style.display = 'none';
+                document.getElementById('volUnMute_' + id).style.display = 'flex';
+            }
+            document.getElementById(id).volume = volumeslider.value/100;
+            volMainSet = document.getElementById(id).volume;
+        }
+
+        function volumeUnMute(ev){
+            id = ev.name;
+            document.getElementById('volMute_' + id).style.display = 'none';
+            document.getElementById('volUnMute_' + id).style.display = 'flex';
+            document.getElementById('volumeslider_' + id).value = volMainSet * 100;
+            document.getElementById(id).volume = volMainSet;
+        }
+        function volumeMute(ev){
+            id = ev.name;
+            document.getElementById('volMute_' + id).style.display = 'flex';
+            document.getElementById('volUnMute_' + id).style.display = 'none';
+            document.getElementById(id).volume = 0;
+            document.getElementById('volumeslider_' + id).value = 0;
+        }
+    </script>
+    <script type="text/javascript">
+        var scene = document.getElementById('scene');
+        var parallax = new Parallax(scene);
+    </script>
+    <script type="text/javascript">
+        var scene = document.getElementById('scene_two');
+        var parallax = new Parallax(scene_two);
+    </script>
+{% endblock %}

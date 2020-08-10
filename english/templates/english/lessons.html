@@ -1,0 +1,73 @@
+{% extends 'english/base.html' %}
+
+{% block load_filter_tags %}
+    {% load custom_filter_tags %}
+{% endblock %}
+
+{% block title %}
+Lessons
+{% endblock %}
+
+{% block mobile_menu %}
+    <a href="{% url 'index' %}" data-target="anchor">Главная</a>
+    <a href="#grammar" data-target="anchor">Грамматика</a>
+    <a href="/english" data-target="anchor">Тексты для перевода</a>
+    <a href="#footer" data-target="anchor">Контакты</a>
+{% endblock %}
+
+{% block mobile_menu_two %}
+    <a href="{% url 'index' %}" data-target="anchor">Главная</a>
+    <a href="#grammar" data-target="anchor">Грамматика</a>
+    <a href="/english" data-target="anchor">Тексты для перевода</a>
+    <a href="#footer" data-target="anchor">Контакты</a>
+{% endblock %}
+
+{% block sticky %}
+    <ul>
+        <li><a href="{% url 'index' %}" data-target="anchor">Главная</a></li>
+        <li><a href="#phonetics" data-target="anchor">Фонетика</a></li>
+        <li><a href="#grammar" data-target="anchor">Грамматика</a></li>
+        <li><a href="#next" data-target="anchor">Тексты для перевода</a></li>
+        <li><a href="#footer" data-target="anchor">Контакты</a></li>
+    </ul>
+{% endblock %}
+{% block section %}
+    <div class="lessons_main">
+        <div class="lessons_list">
+            <h1 id="phonetics">Фонетика</h1>
+            <div class="lessons_pos">
+                {% for lesson, marks in data_phonetics %}
+                    <div style="cursor: pointer;" onclick="location.href='/topic/topic/{{ lesson.id }}/'" class="lessons_container">
+                        <img src="{{ lesson.img.url }}" class="responsive img_border_responsive">
+                        <p class="lessons_main_marks_phonetics">
+                            Тесты: {{ marks.mark_tests }} из {{ lesson.length_of_questions }}<br>
+                            Домашняя работа: {{ marks.mark_home_work }}
+                        </p>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    <div class="lessons_main">
+        <div class="lessons_list" id="lessons_list">
+            <h1 id="grammar">Грамматика</h1>
+            <div class="lessons_pos">
+                {% for lesson, marks in data_grammar %}
+                    <div style="cursor: pointer;" onclick="location.href='/grammar/grammar/{{ lesson.id }}/'" class="lessons_container">
+                        <img src="{{ lesson.img.url }}" class="responsive img_border_responsive">
+                        <p class="lessons_main_marks">
+                            Тесты: {{ marks.mark_tests }} из {{ lesson.length_of_questions }}<br>
+                            Домашняя работа: {{ marks.mark_home_work }}
+                        </p>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block script_quiz %}
+    <script type="text/javascript">
+        //document.getElementById("test_rating").innerHTML=localStorage.getItem("textvalue");
+    </script>
+{% endblock %}

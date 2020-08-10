@@ -1,0 +1,316 @@
+{% extends 'english/base.html' %}
+
+{% block load_filter_tags %}
+    {% load custom_filter_tags %}
+{% endblock %}
+
+{% block title %}
+Lessons
+{% endblock %}
+
+{% block mobile_menu %}
+    <a href="{% url 'index' %}" data-target="anchor">Главная</a>
+    <a href="{% url 'lessons' %}" data-target="anchor">Уроки</a>
+    <a href="{% url 'about' %}" data-target="anchor">О нас</a>
+    <a href="#footer" data-target="anchor">Контакты</a>
+{% endblock %}
+
+{% block mobile_menu_two %}
+    <a href="{% url 'index' %}" data-target="anchor">Главная</a>
+    <a href="{% url 'lessons' %}" data-target="anchor">Уроки</a>
+    <a href="{% url 'about' %}" data-target="anchor">О нас</a>
+    <a href="#footer" data-target="anchor">Контакты</a>
+{% endblock %}
+
+{% block sticky %}
+    <ul>
+        <li><a href="{% url 'index' %}" data-target="anchor">Главная</a></li>
+        <li><a href="{% url 'lessons' %}" data-target="anchor">Уроки</a></li>
+        <li><a href="{% url 'about' %}" data-target="anchor">О нас</a></li>
+        <li><a href="#footer" data-target="anchor">Контакты</a></li>
+    </ul>
+{% endblock %}
+{% block section %}
+    <div class="home_work_main_block">
+        <div class="home_work_inner_block">
+            <h1 align="center" style="color: #5f5f5f;">Домашняя работа</h1>
+            <form name="homework" class="homework" id="homework" action="javascript:checkHomeWork();" method="POST">
+                {% csrf_token %}
+                {% for homework in home_work_grammar %}
+                    <div class="homework_div_container">
+                        <div class="hw_first_grid">
+                            <ol start="1">
+                                <h3>1. Введите пропущенные слова:</h3>
+                                <li>
+                                    <a class="texp_homework">{{ homework.semtence_word_one }}</a>
+                                    <input id="hw_word_check_1" class="homework_input" type="text" maxlength="{{ homework.word_1|length }}" size="{{ homework.word_1|length }}" required>.
+                                    <a class="texp_homework translation_hw">{{ homework.translation_one }}</a>
+                                </li>
+                                <li>
+                                    <a class="texp_homework">{{ homework.semtence_word_two }}</a>
+                                    <input id="hw_word_check_2" class="homework_input" type="text" maxlength="{{ homework.word_2|length }}" size="{{ homework.word_2|length }}" required>
+                                    <a class="texp_homework">{{ homework.semtence_word_two_two }}</a>
+                                    <a class="texp_homework translation_hw">{{ homework.translation_two }}</a>
+                                </li>
+                                <li>
+                                    <input id="hw_word_check_3" class="homework_input" type="text" maxlength="{{ homework.word_3|length }}" size="{{ homework.word_3|length }}" required>
+                                    <a class="texp_homework">{{ homework.semtence_word_three }}</a>
+                                    <input id="hw_word_check_4" class="homework_input" type="text" maxlength="{{ homework.word_4|length }}" size="{{ homework.word_4|length }}" required>.
+                                    <a class="texp_homework translation_hw">{{ homework.translation_three }}</a>
+                                </li>
+                                <li>
+                                    <input id="hw_word_check_5" class="homework_input" type="text" maxlength="{{ homework.word_5|length }}" size="{{ homework.word_5|length }}" required>
+                                    <input id="hw_word_check_6" class="homework_input" type="text" maxlength="{{ homework.word_6|length }}" size="{{ homework.word_6|length }}" required>
+                                    <a class="texp_homework">{{ homework.semtence_word_four }}</a>
+                                    <a class="texp_homework translation_hw">{{ homework.translation_four }}</a>
+                                </li>
+                                <li>
+                                    <input id="hw_word_check_7" class="homework_input" type="text" maxlength="{{ homework.word_7|length }}" size="{{ homework.word_7|length }}" required>
+                                    <a class="texp_homework">{{ homework.semtence_word_five }}</a>
+                                    <input id="hw_word_check_8" class="homework_input" type="text" maxlength="{{ homework.word_8|length }}" size="{{ homework.word_8|length }}" required>.
+                                    <a class="texp_homework translation_hw">{{ homework.translation_five }}</a>
+                                </li>
+                            </ol><br>
+                        </div>
+                        <div class="hw_second_grid">
+                            <ol>
+                                <h3>2. Составьте предложение:</h3>
+                                <li>
+                                    <input maxlength="{{ homework.scramble_semtence_one|length }}" size="{{ homework.scramble_semtence_one|length }}" id="drop_1" class="homework_input homework_input_drag" type="text" ondragover="allowDrop(event)" ondrop="drop(event)" required><br><br>
+                                    <a name="drop_1" onclick="passText(event)" id="drag_one_word_one" class="hw_drag" draggable="true" ondragstart="dragStart(event)"> {{ homework.scramble_one_one }}</a>
+                                    <a name="drop_1" onclick="passText(event)" id="drag_one_word_two" class="hw_drag" draggable="true" ondragstart="dragStart(event)"> {{ homework.scramble_one_two }}</a>
+                                    <a name="drop_1" onclick="passText(event)" id="drag_one_word_three" class="hw_drag" draggable="true" ondragstart="dragStart(event)"> {{ homework.scramble_one_three }}</a>
+                                    <a name="drop_1" onclick="passText(event)" id="drag_one_word_four" class="hw_drag" draggable="true" ondragstart="dragStart(event)"> {{ homework.scramble_one_four }}</a>
+                                </li>
+                                <li>
+                                    <input maxlength="{{ homework.scramble_semtence_two|length }}" size="{{ homework.scramble_semtence_two|length }}" id="drop_2" class="homework_input homework_input_drag" type="text" ondragover="allowDrop(event)" ondrop="drop(event)" required><br><br>
+                                    <a name="drop_2" onclick="passText(event)" id="drag_two_word_one" class="hw_drag" draggable="true" ondragstart="dragStart(event)"> {{ homework.scramble_two_one }}</a>
+                                    <a name="drop_2" onclick="passText(event)" id="drag_two_word_two" class="hw_drag" draggable="true" ondragstart="dragStart(event)"> {{ homework.scramble_two_two }}</a>
+                                    <a name="drop_2" onclick="passText(event)" id="drag_two_word_three" class="hw_drag" draggable="true" ondragstart="dragStart(event)"> {{ homework.scramble_two_three }}</a>
+                                    <a name="drop_2" onclick="passText(event)" id="drag_two_word_four" class="hw_drag" draggable="true" ondragstart="dragStart(event)"> {{ homework.scramble_two_four }}</a>
+                                </li>
+                                <li>
+                                    <input maxlength="{{ homework.scramble_semtence_three|length }}" size="{{ homework.scramble_semtence_three|length }}" id="drop_3" class="homework_input homework_input_drag" type="text" ondragover="allowDrop(event)" ondrop="drop(event)" required><br><br>
+                                    <a name="drop_3" onclick="passText(event)" id="drag_three_word_one" class="hw_drag" draggable="true" ondragstart="dragStart(event)"> {{ homework.scramble_three_one }}</a>
+                                    <a name="drop_3" onclick="passText(event)" id="drag_three_word_two" class="hw_drag" draggable="true" ondragstart="dragStart(event)"> {{ homework.scramble_three_two }}</a>
+                                    <a name="drop_3" onclick="passText(event)" id="drag_three_word_three" class="hw_drag" draggable="true" ondragstart="dragStart(event)"> {{ homework.scramble_three_three }}</a>
+                                    <a name="drop_3" onclick="passText(event)" id="drag_three_word_four" class="hw_drag" draggable="true" ondragstart="dragStart(event)"> {{ homework.scramble_three_four }}</a>
+                                </li>
+                                <li>
+                                    <input maxlength="{{ homework.scramble_semtence_four|length }}" size="{{ homework.scramble_semtence_four|length }}" id="drop_4" class="homework_input homework_input_drag" type="text" ondragover="allowDrop(event)" ondrop="drop(event)" required><br><br>
+                                    <a name="drop_4" onclick="passText(event)" id="drag_four_word_one" class="hw_drag" draggable="true" ondragstart="dragStart(event)"> {{ homework.scramble_four_one }}</a>
+                                    <a name="drop_4" onclick="passText(event)" id="drag_four_word_two" class="hw_drag" draggable="true" ondragstart="dragStart(event)"> {{ homework.scramble_four_two }}</a>
+                                    <a name="drop_4" onclick="passText(event)" id="drag_four_word_three" class="hw_drag" draggable="true" ondragstart="dragStart(event)"> {{ homework.scramble_four_three }}</a>
+                                    <a name="drop_4" onclick="passText(event)" id="drag_four_word_four" class="hw_drag" draggable="true" ondragstart="dragStart(event)"> {{ homework.scramble_four_four }}</a>
+                                </li>
+                                <li>
+                                    <input maxlength="{{ homework.scramble_semtence_five|length }}" size="{{ homework.scramble_semtence_five|length }}" id="drop_5" class="homework_input homework_input_drag" type="text" ondragover="allowDrop(event)" ondrop="drop(event)" required><br><br>
+                                    <a name="drop_5" onclick="passText(event)" id="drag_five_word_one" class="hw_drag" draggable="true" ondragstart="dragStart(event)"> {{ homework.scramble_five_one }}</a>
+                                    <a name="drop_5" onclick="passText(event)" id="drag_five_word_two" class="hw_drag" draggable="true" ondragstart="dragStart(event)"> {{ homework.scramble_five_two }}</a>
+                                    <a name="drop_5" onclick="passText(event)" id="drag_five_word_three" class="hw_drag" draggable="true" ondragstart="dragStart(event)"> {{ homework.scramble_five_three }}</a>
+                                    <a name="drop_5" onclick="passText(event)" id="drag_five_word_four" class="hw_drag" draggable="true" ondragstart="dragStart(event)"> {{ homework.scramble_five_four }}</a>
+                                </li>
+                            </ol><br>
+                        </div>
+                        <div class="hw_second_grid">
+                            <ol>
+                                <h3>3. Проверьте себя: переведите предложение и нажмите на кнопку <b style="cursor: pointer; color:#be5656fd;">Сравнить перевод</b>.</h3>
+                                <li>
+                                    <a>{{ homework.main_sentence_one }}</a>
+                                    <input maxlength="{{ homework.main_sentence_translation_one|length }}" size="{{ homework.main_sentence_translation_one|length }}" type="text" class="homework_input homework_input_drag" required>
+                                    <a class="check_translation_btn" name="check_translation_btn_1" onclick="translateText(event)">Сравнить перевод</a>
+                                    <a class="translation_text_rus" id="check_translation_btn_1">{{ homework.main_sentence_translation_one }}</a>
+                                </li>
+                                <li>
+                                    <a>{{ homework.main_sentence_two }}</a>
+                                    <input maxlength="{{ homework.main_sentence_translation_two|length }}" size="{{ homework.main_sentence_translation_two|length }}" type="text" class="homework_input homework_input_drag" required>
+                                    <a class="check_translation_btn" name="check_translation_btn_2" onclick="translateText(event)">Сравнить перевод</a>
+                                    <a class="translation_text_rus" id="check_translation_btn_2">{{ homework.main_sentence_translation_two }}</a>
+                                </li>
+                                <li>
+                                    <a>{{ homework.main_sentence_three }}</a>
+                                    <input maxlength="{{ homework.main_sentence_translation_three|length }}" size="{{ homework.main_sentence_translation_three|length }}" type="text" class="homework_input homework_input_drag" required>
+                                    <a class="check_translation_btn" name="check_translation_btn_3" onclick="translateText(event)">Сравнить перевод</a>
+                                    <a class="translation_text_rus" id="check_translation_btn_3">{{ homework.main_sentence_translation_three }}</a>
+                                </li>
+                                <li>
+                                    <a>{{ homework.main_sentence_four }}</a>
+                                    <input maxlength="{{ homework.main_sentence_translation_four|length }}" size="{{ homework.main_sentence_translation_four|length }}" type="text" class="homework_input homework_input_drag" required>
+                                    <a class="check_translation_btn" name="check_translation_btn_4" onclick="translateText(event)">Сравнить перевод</a>
+                                    <a class="translation_text_rus" id="check_translation_btn_4">{{ homework.main_sentence_translation_four }}</a>
+                                </li>
+                                <li>
+                                    <a>{{ homework.main_sentence_five }}</a>
+                                    <input maxlength="{{ homework.main_sentence_translation_five|length }}" size="{{ homework.main_sentence_translation_five|length }}" type="text" class="homework_input homework_input_drag" required>
+                                    <a class="check_translation_btn" name="check_translation_btn_5" onclick="translateText(event)">Сравнить перевод</a>
+                                    <a class="translation_text_rus" id="check_translation_btn_5">{{ homework.main_sentence_translation_five }}</a>
+                                </li>
+                            </ol><br>
+                        </div>
+                        <div class="hw_second_grid">
+                            <ol>
+                                <h3>4. Нажмите на кнопку микрофона для проверки Вашего произношения и произнесите предложение (работает только в браузере Google Chrome).</h3>
+                                <li>
+                                    <a rel="voice_recognition1">{{ homework.speech_sentence_one }}</a>
+                                    <input id="voice_recognition1" maxlength="{{ homework.speech_sentence_one|length }}" size="{{ homework.speech_sentence_one|length }}" type="text" class="homework_input homework_input_drag capitalize_first_letter" onkeypress="return false;">
+                                    <a name="voice_recognition1" onclick="getcustomervoice(this)" class="microphon_say_sentance" name="voice_recognition2"><i class='fas fa-microphone-alt'></i></a>
+                                </li>
+                                <li>
+                                    <a rel="voice_recognition2">{{ homework.speech_sentence_two }}</a>
+                                    <input id="voice_recognition2" maxlength="{{ homework.speech_sentence_two|length }}" size="{{ homework.speech_sentence_two|length }}" type="text" class="homework_input homework_input_drag capitalize_first_letter" onkeypress="return false;">
+                                    <a onclick="getcustomervoice(this)" name="voice_recognition2" class="microphon_say_sentance"><i class='fas fa-microphone-alt'></i></a>
+                                </li>
+                                <li>
+                                    <a rel="voice_recognition3">{{ homework.speech_sentence_three }}</a>
+                                    <input id="voice_recognition3" maxlength="{{ homework.speech_sentence_three|length }}" size="{{ homework.speech_sentence_three|length }}" type="text" class="homework_input homework_input_drag capitalize_first_letter" onkeypress="return false;">
+                                    <a onclick="getcustomervoice(this)" name="voice_recognition3" class="microphon_say_sentance"><i class='fas fa-microphone-alt'></i></a>
+                                </li>
+                                <li>
+                                    <a rel="voice_recognition4">{{ homework.speech_sentence_four }}</a>
+                                    <input id="voice_recognition4" maxlength="{{ homework.speech_sentence_four|length }}" size="{{ homework.speech_sentence_four|length }}" type="text" class="homework_input homework_input_drag capitalize_first_letter" onkeypress="return false;">
+                                    <a onclick="getcustomervoice(this)" name="voice_recognition4" class="microphon_say_sentance"><i class='fas fa-microphone-alt'></i></a>
+                                </li>
+                                <li>
+                                    <a rel="voice_recognition5">{{ homework.speech_sentence_five }}</a>
+                                    <input id="voice_recognition5" maxlength="{{ homework.speech_sentence_five|length }}" size="{{ homework.speech_sentence_five|length }}" type="text" class="homework_input homework_input_drag capitalize_first_letter" onkeypress="return false;">
+                                    <a onclick="getcustomervoice(this)" name="voice_recognition5" class="microphon_say_sentance"><i class='fas fa-microphone-alt'></i></a>
+                                </li>
+
+                            </ol><br>
+                        </div>
+                    </div>
+                    <p class="res res-escape" id="res"></p>
+
+                    <div class="test_btns">
+                        <button type="submit" value="submit" class="btn_registration" id="btn_submit">
+                            <span>Проверить</span>
+                            <span class="bubble"></span>
+                            <span class="bubble"></span>
+                            <span class="bubble"></span>
+                            <span class="bubble"></span>
+                        </button>
+                        <button onclick="goBack()" type="submit" value="submit" class="btn_login" id="btn_back">
+                            <span>Назад</span>
+                            <span class="bubble"></span>
+                            <span class="bubble"></span>
+                            <span class="bubble"></span>
+                            <span class="bubble"></span>
+                        </button>
+                        <button onclick="location.href='/lessons/lessons'" type="submit" value="submit" class="btn_registration" id="btn_all_lessons">
+                            <span>Все уроки</span>
+                            <span class="bubble"></span>
+                            <span class="bubble"></span>
+                            <span class="bubble"></span>
+                            <span class="bubble"></span>
+                        </button>
+                    </div>
+
+                {% endfor %}
+            </form>
+        </div>
+    </div>
+{% endblock %}
+
+{% block script_quiz %}
+    <script type="text/javascript">
+        {% for homework in home_work_grammar %}
+            function checkHomeWork(){
+                var yes = 0;
+                var rationg = 0;
+                for (var i = 1; i <= 7; i++){
+                    var word = document.getElementById('hw_word_check_' + i).value.trim();
+                    var word_two = document.getElementById('hw_word_check_' + (i + 1)).value.trim();
+                    if ((word == '{{ homework.word_1 }}'.trim().replace("&#x27;", "'"))){
+                        yes++;
+                    }else if (word == '{{ homework.word_2 }}'.trim().replace("&#x27;", "'")){
+                        yes++;
+                    }else if (word == '{{ homework.word_3 }}'.trim().replace("&#x27;", "'") && word_two == '{{ homework.word_4 }}'.trim().replace("&#x27;", "'")){
+                        yes++;
+                    }else if (word == '{{ homework.word_5 }}'.trim().replace("&#x27;", "'") && word_two == '{{ homework.word_6 }}'.trim().replace("&#x27;", "'")){
+                        yes++;
+                    }else if (word == '{{ homework.word_7 }}'.trim().replace("&#x27;", "'") && word_two == '{{ homework.word_8 }}'.trim().replace("&#x27;", "'")){
+                        yes++;
+                    }else{
+                        if ((word == '{{ homework.word_7 }}'.trim()) || (word == '{{ homework.word_5 }}'.trim()) || (word == '{{ homework.word_3 }}'.trim()) || (word == '{{ homework.word_4 }}'.trim()) || (word == '{{ homework.word_6 }}'.trim())){
+                            if ((i == "7") && (word_two != '{{ homework.word_8 }}'.trim())){
+                                var changeColorTwo = document.getElementById('hw_word_check_' + (i + 1));
+                                changeColorTwo.style.color = "#FFFFFF";
+                                changeColorTwo.style.backgroundColor = '#FF4141';
+                            }
+                        }else {
+                            var changeColor = document.getElementById('hw_word_check_' + i);
+                            changeColor.style.color = "#FFFFFF";
+                            changeColor.style.backgroundColor = '#FF4141';
+                            if ((i == "7") && (word_two != '{{ homework.word_8 }}'.trim())){
+                                var changeColorTwo = document.getElementById('hw_word_check_' + (i + 1));
+                                changeColorTwo.style.color = "#FFFFFF";
+                                changeColorTwo.style.backgroundColor = '#FF4141';
+                            }
+                        }
+                    }
+                }
+                for (var j = 1; j <= 5; j++){
+                    var text_content = document.getElementById('drop_' + j).value;
+                    if (text_content.replace(/\s+/g, '') == '{{ homework.scramble_semtence_one }}'.replace(/\s+/g, '').replace("&#x27;", "'")){
+                        yes++;
+                    }else if (text_content.replace(/\s+/g, '') == '{{ homework.scramble_semtence_two }}'.replace(/\s+/g, '').replace("&#x27;", "'")){
+                        yes++;
+                    }else if (text_content.replace(/\s+/g, '') == '{{ homework.scramble_semtence_three }}'.replace(/\s+/g, '').replace("&#x27;", "'")){
+                        yes++;
+                    }else if (text_content.replace(/\s+/g, '') == '{{ homework.scramble_semtence_four }}'.replace(/\s+/g, '').replace("&#x27;", "'")){
+                        yes++;
+                    }else if (text_content.replace(/\s+/g, '') == '{{ homework.scramble_semtence_five }}'.replace(/\s+/g, '').replace("&#x27;", "'")){
+                        yes++;
+                    }else {
+                        var changeColor = document.getElementById('drop_' + j);
+                        changeColor.style.color = "#FFFFFF";
+                        changeColor.style.backgroundColor = '#FF4141';
+                    }
+                }
+                function res(){
+                    var p;
+                    var result = document.querySelector('.res-escape');
+                    p = document.getElementById('res');
+                    btn_submit = document.getElementById('btn_submit');
+                    btn_back = document.getElementById('btn_back');
+                    btn_all_lessons = document.getElementById('btn_all_lessons');
+                    switch(yes){
+                        case 10: p.innerHTML = "Ваша оценка по первым двум заданиям <b>5</b>, вы все решили без ошибок. В третьем задании Вы сами должны проверить правильность своего перевода. И не забывайте, что у Вас ограниченное количество символов для ввода."; break;
+                        case 9: p.innerHTML = "Ваша оценка по первым двум заданиям <b>5</b>, у вас 1 ошибка. В третьем задании Вы сами можете проверить правильность своего перевода. И не забывайте, что у Вас ограниченное количество символов для ввода."; break;
+                        case 8: p.innerHTML = "Ваша оценка по первым двум заданиям <b>4</b>, у вас 2 ошибки. В третьем задании Вы сами можете проверить правильность своего перевода. И не забывайте, что у Вас ограниченное количество символов для ввода."; break;
+                        case 7: p.innerHTML = "Ваша оценка по первым двум заданиям <b>4</b>, у вас 3 ошибки. В третьем задании Вы сами можете проверить правильность своего перевода. И не забывайте, что у Вас ограниченное количество символов для ввода."; break;
+                        case 6: p.innerHTML = "Ваша оценка по первым двум заданиям <b>3</b>, у вас 4 ошибки. В третьем задании Вы сами можете проверить правильность своего перевода. И не забывайте, что у Вас ограниченное количество символов для ввода."; break;
+                        case 5: p.innerHTML = "Ваша оценка по первым двум заданиям <b>3</b>, у вас 5 ошибок. В третьем задании Вы сами можете проверить правильность своего перевода. И не забывайте, что у Вас ограниченное количество символов для ввода."; break;
+                        default: p.innerHTML = "Ваша оценка по первым двум заданиям <b>2</b>, вы плохо выполнили домашнее задание.";
+                    }
+                    result.classList.add('active');
+                    btn_submit.classList.add('active');
+                    btn_back.classList.add('active');
+                    btn_all_lessons.classList.add('active');
+                }
+                res()
+                var csrftoken = jQuery("[name=csrfmiddlewaretoken]").val();
+                function csrfSafeMethod(method) {
+                    // these HTTP methods do not require CSRF protection
+                    return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+                }
+
+                $.ajaxSetup({
+                    beforeSend: function (xhr, settings) {
+                        // if not safe, set csrftoken
+                        if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+                            xhr.setRequestHeader("X-CSRFToken", csrftoken);
+                        }
+                    }
+                });
+                $.ajax({
+                    url: '{% url 'homeworkGrammar' topic_id %}',
+                    data: {'yes': Math.ceil(yes / 2)},
+                    type: 'POST'
+                }).done(function(response){
+                    console.log(Math.ceil(yes / 2));
+                });
+            }
+        {% endfor %}
+    </script>
+{% endblock %}

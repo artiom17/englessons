@@ -1,0 +1,28 @@
+{% extends 'english/base.html' %}
+{% load static %}
+
+{% block title %}
+Self-Education
+{% endblock %}
+
+{% block mobile_menu %}
+    <a href="{% url 'index' %}" data-target="anchor">Главная</a>
+    <a href="#next" data-target="anchor">Уроки</a>
+    <a href="#footer" data-target="anchor">Контакты</a>
+{% endblock %}
+
+{% block mobile_menu_two %}
+    <a href="{% url 'index' %}" data-target="anchor">Главная</a>
+    <a href="#next" data-target="anchor">Уроки</a>
+    <a href="#footer" data-target="anchor">Контакты</a>
+{% endblock %}
+
+{% block sticky %}
+    <ul class="list_sticky_pos">
+        <li><a href="{% url 'index' %}" data-target="anchor">Главная</a></li>
+        <li><a href="#next" data-target="anchor">Уроки</a></li>
+        <li><a href="#footer" data-target="anchor">Контакты</a></li>
+    </ul>
+{% endblock %}
+{% block section %}
+{% endblock %}

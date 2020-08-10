@@ -1,0 +1,32 @@
+{% extends 'english/base-account.html' %}
+
+{% block title %}
+Reset
+{% endblock %}
+
+{% block method %}
+    <form action="{% url 'request-reset-email' %}" method="post">
+{% endblock %}
+
+{% block section %}
+    <li><input type="email" name="email" placeholder="email"></li>
+    <li><button type="submit" class="btn_submit" name="Send"><span>Отправить</span>
+        <span class="bubble"></span>
+        <span class="bubble"></span>
+        <span class="bubble"></span>
+        <span class="bubble"></span>
+    </button></li>
+    <li>
+        <button type="button" onclick="location.href='{% url 'index' %}'" class="btn_back">
+            <span>На главную страницу</span>
+            <span class="bubble"></span>
+            <span class="bubble"></span>
+            <span class="bubble"></span>
+            <span class="bubble"></span>
+        </button>
+    </li>
+    <li class="link_width">
+        <a class="reset-password-link" id="reset-password-link" href="{% url 'login' %}">Войти в аккаунт</a>
+        <a class="reset-password-link" href="{% url 'register' %}">Зарегистрироваться</a>
+    </li>
+{% endblock %}

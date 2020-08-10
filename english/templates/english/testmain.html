@@ -1,0 +1,168 @@
+{% extends 'english/base.html' %}
+{% load static %}
+
+{% block title %}
+Test Grammar
+{% endblock %}
+
+{% block mobile_menu %}
+    <a href="{% url 'index' %}" data-target="anchor">Главная</a>
+    <a href="{% url 'lessons' %}" data-target="anchor">Уроки</a>
+    <a href="{% url 'about' %}" data-target="anchor">О нас</a>
+    <a href="#footer" data-target="anchor">Контакты</a>
+{% endblock %}
+
+{% block mobile_menu_two %}
+    <a href="{% url 'index' %}" data-target="anchor">Главная</a>
+    <a href="{% url 'lessons' %}" data-target="anchor">Уроки</a>
+    <a href="{% url 'about' %}" data-target="anchor">О нас</a>
+    <a href="#footer" data-target="anchor">Контакты</a>
+{% endblock %}
+
+{% block sticky %}
+    <ul>
+        <li><a href="{% url 'index' %}" data-target="anchor">Главная</a></li>
+        <li><a href="{% url 'lessons' %}" data-target="anchor">Уроки</a></li>
+        <li><a href="{% url 'about' %}" data-target="anchor">О нас</a></li>
+        <li><a href="#footer" data-target="anchor">Контакты</a></li>
+    </ul>
+{% endblock %}
+{% block section %}
+    <form name="quiz" class="quiz" id="quiz" action="javascript:check();" method="POST">
+        {% csrf_token %}
+        <div class="main_quiz">
+            <div class="sub_quiz">
+                <h1 style="text-align: center; margin-top: 0;">Тесты по теме {{ test_grammar.topic }}</h1>
+                {% for test in test_grammar %}
+                    <div class="question_border_for_quiz">
+                        <h2 class="quiz_question_text_size">{{ forloop.counter }}. {{ test.question }} </h2>
+                        <label class="show_label">
+                            <input name="question{{ test.question_number }}" checked="checked" value="{{ test.correct_answer_one }}"
+                            id="value1" type="radio"><a name="quest{{ test.question_number }}" rel="{{ test.correct_answer_one }}" class="quiz_answers"> {{ test.answer_one }} </a><br>
+                        </label>
+                        <label class="show_label">
+                            <input name="question{{ test.question_number }}" value="{{ test.correct_answer_two }}"
+                            id="value2" type="radio"><a name="quest{{ test.question_number }}" rel="{{ test.correct_answer_two }}" class="quiz_answers"> {{ test.answer_two }} </a> <br>
+                        </label>
+                        <label class="show_label">
+                            <input name="question{{ test.question_number }}" value="{{ test.correct_answer_three }}"
+                            id="value3" type="radio"><a name="quest{{ test.question_number }}" rel="{{ test.correct_answer_three }}" class="quiz_answers"> {{ test.answer_three }} </a> <br>
+                        </label>
+                        <label class="show_label">
+                            <input name="question{{ test.question_number }}" value="{{ test.correct_answer_four }}"
+                            id="value4" type="radio"><a name="quest{{ test.question_number }}" rel="{{ test.correct_answer_four }}" class="quiz_answers"> {{ test.answer_four }} </a> <br>
+                        </label>
+                    </div>
+                {% endfor %}
+                <p class="res res-escape" id="res"></p>
+                <br>
+                <div class="test_btns">
+                    <button type="submit" value="submit" class="btn_registration" id="btn_submit">
+                        <span>Проверить</span>
+                        <span class="bubble"></span>
+                        <span class="bubble"></span>
+                        <span class="bubble"></span>
+                        <span class="bubble"></span>
+                    </button>
+                    <button onclick="goBack()" type="submit" value="submit" class="btn_login" id="btn_back">
+                        <span>Назад</span>
+                        <span class="bubble"></span>
+                        <span class="bubble"></span>
+                        <span class="bubble"></span>
+                        <span class="bubble"></span>
+                    </button>
+                    <button onclick="location.href='/lessons/lessons'" type="submit" value="submit" class="btn_registration" id="btn_all_lessons">
+                        <span>Все уроки</span>
+                        <span class="bubble"></span>
+                        <span class="bubble"></span>
+                        <span class="bubble"></span>
+                        <span class="bubble"></span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </form>
+{% endblock %}
+
+{% block script_quiz %}
+    <script id="template-upload" type="text/javascript">
+        function check(){
+            var yes = 0;
+            var no = 0;
+            var choice;
+            for(var v = 1; v <= {{ test_grammar|length }}; v++){
+                var q = document.forms['quiz'].elements['question' + v];
+                var cor_answer_color = document.getElementsByName("quest" + v);
+                for (var i = 0; i < q.length; i++) {
+                    if (cor_answer_color[i].rel == "True") {
+                        cor_answer_color[i].style.color = '#fff';
+                        cor_answer_color[i].style.backgroundColor = '#83DC83';
+                        cor_answer_color[i].style.borderRadius = '4px';
+                        cor_answer_color[i].style.margin = '15px';
+                    }
+                    if (q[i].checked) {
+                        choice = q[i].value;
+                    }
+                    if (q[i].checked && choice == "False") {
+                        cor_answer_color[i].style.color = '#fff';
+                        cor_answer_color[i].style.backgroundColor = '#FF4141';
+                        cor_answer_color[i].style.borderRadius = '4px';
+                        cor_answer_color[i].style.margin = '10px';
+                    }
+                }
+                if (choice == "True") {
+                    yes++;
+                }
+                if (choice == "False") {
+                    no++;
+                }
+            }
+            //alert("Вы ответили на " + yes + " вопросов из " + (no + yes));
+            function res(){
+                var p;
+                var result = document.querySelector('.res-escape');
+                p = document.getElementById('res');
+                btn_submit = document.getElementById('btn_submit');
+                btn_back = document.getElementById('btn_back');
+                btn_all_lessons = document.getElementById('btn_all_lessons');
+                if (yes == 1 || yes == 21 || yes == 31 || yes == 41 || yes == 51 || yes == 61 || yes == 71 || yes == 81 || yes == 91 ){
+                    p.innerHTML = "Вы ответили на " + yes + " вопрос из " + (no + yes);
+                }else if(yes == 2 || yes == 22 || yes == 32 || yes == 42 || yes == 52 || yes == 62 || yes == 72 || yes == 82 || yes == 92
+                 || yes == 3 || yes == 23 || yes == 33 || yes == 43 || yes == 53 || yes == 63 || yes == 73 || yes == 83 || yes == 93
+                 || yes == 4 || yes == 24 || yes == 34 || yes == 44 || yes == 54 || yes == 64 || yes == 74 || yes == 84 || yes == 94){
+                    p.innerHTML = "Вы ответили на " + yes + " вопроса из " + (no + yes);
+                }else{
+                    p.innerHTML = "Вы ответили на " + yes + " вопросов из " + (no + yes);
+                }
+
+                result.classList.add('active');
+                btn_submit.classList.add('active');
+                btn_back.classList.add('active');
+                btn_all_lessons.classList.add('active');
+            }
+            res()
+
+            var csrftoken = jQuery("[name=csrfmiddlewaretoken]").val();
+            function csrfSafeMethod(method) {
+                // these HTTP methods do not require CSRF protection
+                return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+            }
+
+            $.ajaxSetup({
+                beforeSend: function (xhr, settings) {
+                    // if not safe, set csrftoken
+                    if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+                        xhr.setRequestHeader("X-CSRFToken", csrftoken);
+                    }
+                }
+            });
+            $.ajax({
+                url: '{% url 'testmain' topic_id %}',
+                data: {'yes': yes},
+                type: 'POST'
+            }).done(function(response){
+                console.log(yes);
+            });
+        }
+    </script>
+{% endblock %}

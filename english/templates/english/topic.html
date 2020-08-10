@@ -1,0 +1,268 @@
+{% extends 'english/base.html' %}
+{% load static %}
+
+{% block script_new %}
+{% endblock %}
+
+{% block title %}
+Phonetics
+{% endblock %}
+
+{% block mobile_menu %}
+    <a href="{% url 'index' %}" data-target="anchor">Главная</a>
+    <a href="{% url 'lessons' %}" data-target="anchor">Уроки</a>
+    <a class="nav_guess_word" name="bg-img" onclick="openGuessGame(event)">Запоминание слов</a>
+    <a href="/testmain/homework/{{ topic.id }}/" data-target="anchor">Домашняя работа</a>
+    <a href="/testmain/testphonetics/{{ topic.id }}/" data-target="anchor">Тесты</a>
+    <a href="#footer" data-target="anchor">Контакты</a>
+{% endblock %}
+
+{% block mobile_menu_two %}
+    <a href="{% url 'index' %}" data-target="anchor">Главная</a>
+    <a href="{% url 'lessons' %}" data-target="anchor">Уроки</a>
+    <a class="nav_guess_word" name="bg-img" onclick="openGuessGame(event)">Запоминание слов</a>
+    <a href="/testmain/homework/{{ topic.id }}/" data-target="anchor">Домашняя работа</a>
+    <a href="/testmain/testphonetics/{{ topic.id }}/" data-target="anchor">Тесты</a>
+    <a href="#footer" data-target="anchor">Контакты</a>
+{% endblock %}
+
+{% block sticky %}
+    <ul>
+        <li><a href="{% url 'index' %}" data-target="anchor">Главная</a></li>
+        <li><a href="{% url 'lessons' %}" data-target="anchor">Уроки</a></li>
+        <li><a class="nav_guess_word" name="bg-img" onclick="openGuessGame(event)">Запоминание слов</a></li>
+        <li><a href="/testmain/homework/{{ topic.id }}/" data-target="anchor">Домашняя работа</a></li>
+        <li><a href="/testmain/testphonetics/{{ topic.id }}/" data-target="anchor">Тесты</a></li>
+        <li><a href="#footer" data-target="anchor">Контакты</a></li>
+    </ul>
+{% endblock %}
+{% block section %}
+    <div class="bg-img" id="bg-img">
+        <img src="{% static 'src/guesswordbg.svg' %}" class="bg_img_two_pic">
+        <div class="word_guess_game" id="word_guess_game">
+            <div class="popup_window_guess_word" id="popup_window_guess_word">
+                <a onclick="closeGuessWord()" id="clock-icon" class="clock-icon"><i class="fa fa-close"></i></a>
+                <a onclick="setRu()" class="word_guess_ru_en" id="word_guess_ru">RU</a>
+                <a onclick="setEn()" class="word_guess_ru_en" id="word_guess_en">EN</a>
+                <div class="guess_word_block">
+                    <div class="guess_word_container" id="guess_word_container"><b></b></div>
+                    <div>
+                        <input autocomplete="off" id="guess_word_input" type="text" class="guess_translation_container" placeholder="Переведите слово" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Переведите слово'" required>
+                        <div class="prompt_word"><a class="prompt_word_text" onclick="prompt()">Подсказка</a></div>
+                        <br>
+                        <div><h1 class="guess_word_correct_answer" id="guess_word_correct_answer">&#10004 Правильно</h1></div>
+                        <h2 class="guess_word_error" id="guess_word_error"></h2>
+                        <div class="div_btn_word_guess_submit">
+                            <button type="submit" onclick="checkAndNext()" class="btn_login" id="btn_word_guess_submit">
+                                <span>Проверить</span>
+                                <span class="bubble"></span>
+                                <span class="bubble"></span>
+                                <span class="bubble"></span>
+                                <span class="bubble"></span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="lessons_main">
+        <div class="lessons_list">
+            <h1 id="phonetics">{{ topic.lesson_title }}</h1>
+            <p class="main_topic_text">{{ topic.topic_text|safe|linebreaks }}</p>
+            <br/>
+            <br/>
+            <p align="center"><iframe class="video_size" src="{{ topic.video_url }}"
+                frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+                allowfullscreen></iframe></p>
+            <br/>
+            <br/>
+            <br/>
+            <div class="dictionary_for_topic" id="dictionary_for_topic">
+                <h1>Словарь</h1>
+                <div class="display_flex_for_dic">
+                    <div class="div_for_dictionary">
+                        <ul class="dic_left_col">
+                            <li><a onclick="textSpeak(this)" name="word1" class="sound-word" style="cursor: pointer;"><i class="fa fa-volume-up"></i> <word id="word1">{{ dic_one.word_one }}</word></a> {{ dic_one.translation_word_one }}</li>
+                            <li><a onclick="textSpeak(this)" name="word2" class="sound-word" style="cursor: pointer;"><i class="fa fa-volume-up"></i> <word id="word2">{{ dic_one.word_two }}</word></a> {{ dic_one.translation_word_two }}</li>
+                            <li><a onclick="textSpeak(this)" name="word3"class="sound-word" style="cursor: pointer;"><i class="fa fa-volume-up"></i> <word id="word3">{{ dic_one.word_three }}</word></a> {{ dic_one.translation_word_three }}</li>
+                            <li><a onclick="textSpeak(this)" name="word4"class="sound-word" style="cursor: pointer;"><i class="fa fa-volume-up"></i> <word id="word4">{{ dic_one.word_four }}</word></a> {{ dic_one.translation_word_four }}</li>
+                            <li><a onclick="textSpeak(this)" name="word5"class="sound-word" style="cursor: pointer;"><i class="fa fa-volume-up"></i> <word id="word5">{{ dic_one.word_five }}</word></a> {{ dic_one.translation_word_five }}</li>
+                        </ul>
+                    </div>
+                    <div class="div_for_dictionary center_div_test">
+                        <ul class="dic_center_col">
+                            <li><a onclick="textSpeak(this)" name="word6"class="sound-word" style="cursor: pointer;"><i class="fa fa-volume-up"></i> <word id="word6">{{ dic_two.word_one }}</word></a> {{ dic_two.translation_word_one }}</li>
+                            <li><a onclick="textSpeak(this)" name="word7"class="sound-word" style="cursor: pointer;"><i class="fa fa-volume-up"></i> <word id="word7">{{ dic_two.word_two }}</word></a> {{ dic_two.translation_word_two }}</li>
+                            <li><a onclick="textSpeak(this)" name="word8"class="sound-word" style="cursor: pointer;"><i class="fa fa-volume-up"></i> <word id="word8">{{ dic_two.word_three }}</word></a> {{ dic_two.translation_word_three }}</li>
+                            <li><a onclick="textSpeak(this)" name="word9"class="sound-word" style="cursor: pointer;"><i class="fa fa-volume-up"></i> <word id="word9">{{ dic_two.word_four }}</word></a> {{ dic_two.translation_word_four }}</li>
+                            <li><a onclick="textSpeak(this)" name="word10" class="sound-word" style="cursor: pointer;"><i class="fa fa-volume-up"></i> <word id="word10">{{ dic_two.word_five }}</word></a> {{ dic_two.translation_word_five }}</li>
+                        </ul>
+                    </div>
+                    <div class="div_for_dictionary">
+                        <ul class="dic_right_col">
+                            <li><a onclick="textSpeak(this)" name="word11" class="sound-word" style="cursor: pointer;"><i class="fa fa-volume-up"></i> <word id="word11">{{ dic_three.word_one }}</word></a> {{ dic_three.translation_word_one }}</li>
+                            <li><a onclick="textSpeak(this)" name="word12" class="sound-word" style="cursor: pointer;"><i class="fa fa-volume-up"></i> <word id="word12">{{ dic_three.word_two }}</word></a> {{ dic_three.translation_word_two }}</li>
+                            <li><a onclick="textSpeak(this)" name="word13" class="sound-word" style="cursor: pointer;"><i class="fa fa-volume-up"></i> <word id="word13">{{ dic_three.word_three }}</word></a> {{ dic_three.translation_word_three }}</li>
+                            <li><a onclick="textSpeak(this)" name="word14" class="sound-word" style="cursor: pointer;"><i class="fa fa-volume-up"></i> <word id="word14">{{ dic_three.word_four }}</word></a> {{ dic_three.translation_word_four }}</li>
+                            <li><a onclick="textSpeak(this)" name="word15" class="sound-word" style="cursor: pointer;"><i class="fa fa-volume-up"></i> <word id="word15">{{ dic_three.word_five }}</word></a> {{ dic_three.translation_word_five }}</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="btn_align_guess_word"><a name="bg-img" onclick="openGuessGame(event)" id="guess_word_btn" class="guess_word_btn">Запоминание слов</a></div>
+                <h3 style="text-align: center;">Нажмите на слово для воспроизведения</h3>
+            </div>
+            <button onclick="location.href='/testmain/testphonetics/{{ topic.id }}/'" class="btn_registration"
+                    id="btn_grammar_test">
+                <span>ТЕСТЫ ПО ДАННОЙ ТЕМЕ</span>
+                <span class="bubble"></span>
+                <span class="bubble"></span>
+                <span class="bubble"></span>
+                <span class="bubble"></span>
+            </button>
+            <button onclick="location.href='/testmain/homework/{{ topic.id }}/'" class="btn_login"
+                    id="btn_home_work">
+                <span>ДОМАШНЯЯ РАБОТА</span>
+                <span class="bubble"></span>
+                <span class="bubble"></span>
+                <span class="bubble"></span>
+                <span class="bubble"></span>
+            </button>
+        </div>
+    </div>
+{% endblock %}
+
+{% block script_quiz %}
+    <script type="text/javascript" src="https://code.responsivevoice.org/responsivevoice.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script type="text/javascript">
+        $(function(){
+            $(".popup_window_guess_word").draggable();
+        });
+    </script>
+    <script type="text/javascript">
+        var name;
+        var guess_word = [
+            {'word': '{{ dic_one.word_one }}', 'translation': '{{ dic_one.translation_word_one }}'},
+            {'word': '{{ dic_one.word_two }}', 'translation': '{{ dic_one.translation_word_two }}'},
+            {'word': '{{ dic_one.word_three }}', 'translation': '{{ dic_one.translation_word_three }}'},
+            {'word': '{{ dic_one.word_four }}', 'translation': '{{ dic_one.translation_word_four }}'},
+            {'word': '{{ dic_one.word_five }}', 'translation': '{{ dic_one.translation_word_five }}'},
+            {'word': '{{ dic_two.word_one }}', 'translation': '{{ dic_two.translation_word_one }}'},
+            {'word': '{{ dic_two.word_two }}', 'translation': '{{ dic_two.translation_word_two }}'},
+            {'word': '{{ dic_two.word_three }}', 'translation': '{{ dic_two.translation_word_three }}'},
+            {'word': '{{ dic_two.word_four }}', 'translation': '{{ dic_two.translation_word_four }}'},
+            {'word': '{{ dic_two.word_five }}', 'translation': '{{ dic_two.translation_word_five }}'},
+            {'word': '{{ dic_three.word_one }}', 'translation': '{{ dic_three.translation_word_one }}'},
+            {'word': '{{ dic_three.word_two }}', 'translation': '{{ dic_three.translation_word_two }}'},
+            {'word': '{{ dic_three.word_three }}', 'translation': '{{ dic_three.translation_word_three }}'},
+            {'word': '{{ dic_three.word_four }}', 'translation': '{{ dic_three.translation_word_four }}'},
+            {'word': '{{ dic_three.word_five }}', 'translation': '{{ dic_three.translation_word_five }}'}];
+
+        var randomNum = Math.floor(Math.random() * guess_word.length);
+        var firstWord;
+        var firstTranslation;
+        var correct = document.getElementById('guess_word_correct_answer');
+        var error = document.getElementById('guess_word_error');
+        var question = document.getElementById('guess_word_container');
+        var check_word_translation = document.getElementById('guess_word_input');
+        var englishLang = document.getElementById('word_guess_en');
+        var russianLang = document.getElementById('word_guess_ru');
+
+        function prompt(){
+            var prompt_word = "";
+            for (var i = 0; i < check_word_translation.value.length; i++){
+                prompt_word = prompt_word + firstTranslation.trim()[i]
+            }
+            if (check_word_translation.value.length < firstTranslation.trim().length){
+                if (check_word_translation.value.length == 0){
+                    check_word_translation.value = check_word_translation.value + firstTranslation.trim()[check_word_translation.value.length];
+                }else {
+                    check_word_translation.value = prompt_word + firstTranslation.trim()[check_word_translation.value.length];
+                }
+            }
+            console.log(prompt_word);
+        }
+
+        function setEn(){
+            englishLang.classList.add('active');
+            russianLang.classList.remove('active');
+            firstWord = guess_word[randomNum].word.replace("&#x27;", "'").replace("-", "");
+            firstTranslation = guess_word[randomNum].translation.replace("-", "");
+            question.innerHTML = firstWord;
+        }
+        function setRu(){
+            englishLang.classList.remove('active');
+            russianLang.classList.add('active');
+            firstWord = guess_word[randomNum].translation.replace("-", "");
+            firstTranslation = guess_word[randomNum].word.replace("&#x27;", "'").replace("-", "");
+            question.innerHTML = firstWord;
+        }
+
+        function closeGuessWord(){
+            var close = document.getElementById('word_guess_game');
+            close.classList.remove('active');
+            if (name == 'bg-img'){
+                var dict = document.getElementById('dictionary_for_topic');
+                var bg = document.getElementById('bg-img');
+                bg.classList.remove('active');
+                dict.classList.remove('active');
+            }else{
+                var bg_two = document.getElementById('bg_img_two');
+                bg_two.classList.remove('active');
+            }
+        }
+        function openGuessGame(ev){
+            name = ev.target.name;
+            console.log(name);
+            var open = document.getElementById('word_guess_game');
+            open.classList.add('active');
+            if (name == 'bg-img'){
+                var dict = document.getElementById('dictionary_for_topic');
+                var bg = document.getElementById('bg-img');
+                bg.classList.add('active');
+                dict.classList.add('active');
+            }else{
+                var bg_two = document.getElementById('bg_img_two');
+                bg_two.classList.add('active');
+            }
+            englishLang.classList.add('active');
+            firstWord = guess_word[randomNum].word.replace("&#x27;", "'").replace("-", "");
+            firstTranslation = guess_word[randomNum].translation.replace("-", "");
+            question.innerHTML = firstWord;
+        }
+        function insertDate(){
+            var rand = Math.floor(Math.random() * guess_word.length);
+
+            check_word_translation.value = "";
+            correct.style.display = "none";
+            error.style.display = "none";
+            if (englishLang.classList.contains('active')){
+                firstWord = guess_word[rand].word.replace("&#x27;", "'").replace("-", "");
+                firstTranslation = guess_word[rand].translation.replace("-", "");
+                question.innerHTML = firstWord;
+            }else {
+                firstWord = guess_word[rand].translation.replace("-", "");
+                firstTranslation = guess_word[rand].word.replace("&#x27;", "'").replace("-", "");
+                question.innerHTML = firstWord;
+            }
+        }
+        function checkAndNext(){
+            if (check_word_translation.value.replace(/\s+/g, '') == firstTranslation.replace(/\s+/g, '').replace("-", "")){
+                correct.style.display = "block";
+                return setTimeout(insertDate, 1200);
+            }else{
+                error.innerHTML = "&#10006 Ответ: " + firstTranslation.replace(/\s+/g, '').replace("-", "");
+                error.style.display = "block";
+                return setTimeout(insertDate, 2500);
+            }
+        }
+        $('#guess_word_input').keypress(function(e) {
+            if (e.which == 13) {
+                $('#btn_word_guess_submit').click();
+                e.preventDefault();
+            }
+        });
+    </script>
+    <script src="{% static 'js/speech.js' %}"></script>
+{% endblock %}

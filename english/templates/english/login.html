@@ -1,0 +1,35 @@
+{% extends 'english/base-account.html' %}
+
+{% block title %}
+Login
+{% endblock %}
+
+{% block method %}
+    <form action="login" method="post">
+{% endblock %}
+
+{% block section %}
+    <li><input type="text" name="username" placeholder="Username"></li>
+    <li><input type="password" name="password" placeholder="Password"></li>
+    <li><button type="submit" class="btn_submit"><span>Войти</span>
+        <span class="bubble"></span>
+        <span class="bubble"></span>
+        <span class="bubble"></span>
+        <span class="bubble"></span>
+    </button></li>
+    <li>
+        <button type="button" onclick="location.href='{% url 'index' %}'" class="btn_back">
+            <span>На главную страницу</span>
+            <span class="bubble"></span>
+            <span class="bubble"></span>
+            <span class="bubble"></span>
+            <span class="bubble"></span>
+        </button>
+    </li>
+    <li class="link_width">
+        <a class="reset-password-link" id="reset-password-link" href="{% url 'request-reset-email' %}">
+            Забыли пароль?
+        </a>
+        <a class="reset-password-link" href="{% url 'register' %}">Зарегистрироваться</a>
+    </li>
+{% endblock %}
